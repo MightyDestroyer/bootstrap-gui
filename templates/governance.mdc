@@ -1,0 +1,65 @@
+---
+description: MightyDestroyer Governance — Kernprinzipien und AI Guardrails fuer alle Projekte
+alwaysApply: true
+---
+
+# MightyDestroyer Governance
+
+Dieses Projekt folgt den MightyDestroyer Governance-Prinzipien.
+Governance-Repo: https://github.com/MightyDestroyer/Governance
+
+## Grundregeln
+
+- Mensch entscheidet — KI schlaegt vor. Kein Auto-Commit, kein Auto-Deploy, kein Auto-Merge.
+- Keine Architekturentscheidungen ohne Ruecksprache (neuer Service, neue Dependency, Schema-Aenderung).
+- Bei Unsicherheit oder Widerspruch: Stopp und Rueckfrage — keine Annahmen.
+- Aenderungen nur innerhalb des definierten Scope.
+
+## Naming Convention
+
+- Dateien und Ordner: lowercase, kebab-case (Ausnahmen: README.md, CLAUDE.md, MEMORY.md, TASKS.md).
+- Code: camelCase (JS/TS), snake_case (Python), PascalCase (Klassen/Types).
+- Branches: feature/beschreibung, fix/beschreibung, docs/beschreibung.
+
+## Commit-Regeln
+
+- Klare, aussagekraeftige Commit-Messages.
+- Kein Commit ohne Doku-Update (README, ADRs, MEMORY.md falls betroffen).
+- Kein Commit mit Secrets, hardcodierten Werten oder TODO ohne Ticket.
+- Kein git push --force auf main/master ohne ausdrueckliche Bestaetigung.
+
+## Kontext-Hierarchie (Prioritaet)
+
+1. Governance-Repo (uebergreifende Prinzipien)
+2. CLAUDE.md im Projekt-Root (projektspezifische Anweisungen)
+3. MEMORY.md (persistenter Projektkontext)
+4. Uebergabe-Dokumente (Session-Kontext)
+5. ADRs (Architektur-Entscheidungen)
+6. Aufgaben-Template (Scope der aktuellen Aufgabe)
+
+## Session-Ablauf
+
+### Start
+1. CLAUDE.md lesen.
+2. MEMORY.md lesen (falls vorhanden).
+3. Uebergabe-Dokument der letzten Session lesen (falls vorhanden).
+4. Scope der aktuellen Aufgabe klaeren.
+
+### Ende
+1. Doku aktualisieren (README, MEMORY.md, ADRs).
+2. Uebergabe-Dokument erstellen (falls relevanter Kontext).
+
+## Eskalation
+
+- Widerspruch zwischen Kontext-Quellen: Stopp, benennen, User entscheidet.
+- Aenderung ausserhalb Scope: Stopp, Scope-Erweiterung anfragen.
+- Security-Risiko erkannt: Sofort melden, keine Workarounds.
+- Architekturentscheidung noetig ohne ADR: Vorschlag machen, nicht eigenstaendig umsetzen.
+
+## Vollstaendige Standards
+
+- Prinzipien: https://github.com/MightyDestroyer/Governance/blob/main/standards/principles.md
+- AI Guardrails: https://github.com/MightyDestroyer/Governance/blob/main/standards/ai-guardrails.md
+- Security: https://github.com/MightyDestroyer/Governance/blob/main/standards/security-guidelines.md
+- Coding: https://github.com/MightyDestroyer/Governance/blob/main/standards/coding-principles.md
+- Compliance: https://github.com/MightyDestroyer/Governance/blob/main/standards/compliance-by-design.md
