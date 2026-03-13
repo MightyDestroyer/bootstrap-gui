@@ -16,16 +16,16 @@
 ## Governance
 
 Dieses Projekt folgt den MightyDestroyer Governance-Prinzipien.  
-**Governance-Repo:** [MightyDestroyer/Governance](https://github.com/MightyDestroyer/Governance)  
-**Kernprinzipien:** [standards/principles.md](https://github.com/MightyDestroyer/Governance/blob/main/standards/principles.md)
+**Governance-Repo:** [MightyDestroyer/governance](https://github.com/MightyDestroyer/governance)  
+**Kernprinzipien:** [standards/principles.md](https://github.com/MightyDestroyer/governance/blob/main/standards/principles.md)
 
 ### Verbindliche Standards
 
-- [Kernprinzipien](https://github.com/MightyDestroyer/Governance/blob/main/standards/principles.md) — 11 Prinzipien, alle verbindlich.
-- [AI Guardrails](https://github.com/MightyDestroyer/Governance/blob/main/standards/ai-guardrails.md) — Regeln für KI-Agenten.
-- [Security Guidelines](https://github.com/MightyDestroyer/Governance/blob/main/standards/security-guidelines.md) — Sicherheitsrichtlinien.
-- [Coding Principles](https://github.com/MightyDestroyer/Governance/blob/main/standards/coding-principles.md) — Coding-Standards.
-- [Compliance by Design](https://github.com/MightyDestroyer/Governance/blob/main/standards/compliance-by-design.md) — Compliance-Anforderungen.
+- [Kernprinzipien](https://github.com/MightyDestroyer/governance/blob/main/standards/principles.md) — 11 Prinzipien, alle verbindlich.
+- [AI Guardrails](https://github.com/MightyDestroyer/governance/blob/main/standards/ai-guardrails.md) — Regeln für KI-Agenten.
+- [Security Guidelines](https://github.com/MightyDestroyer/governance/blob/main/standards/security-guidelines.md) — Sicherheitsrichtlinien.
+- [Coding Principles](https://github.com/MightyDestroyer/governance/blob/main/standards/coding-principles.md) — Coding-Standards.
+- [Compliance by Design](https://github.com/MightyDestroyer/governance/blob/main/standards/compliance-by-design.md) — Compliance-Anforderungen.
 
 ## Anweisungen für KI-Agenten
 
@@ -82,8 +82,8 @@ Dieses Projekt folgt den MightyDestroyer Governance-Prinzipien.
 ## ADRs
 
 Architektur-Entscheidungen werden unter `docs/adrs/` dokumentiert.  
-Template: [ADR-Template](https://github.com/MightyDestroyer/Governance/blob/main/standards/architecture-patterns.md#adr-template)
+Template: [ADR-Template](https://github.com/MightyDestroyer/governance/blob/main/standards/architecture-patterns.md#adr-template)
 
 ---
 
-*Generiert aus MightyDestroyer/Governance — templates/claude.md*
+*Generiert aus MightyDestroyer/governance — templates/claude.md*

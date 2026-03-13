@@ -6,7 +6,7 @@ alwaysApply: true
 # MightyDestroyer Governance
 
 Dieses Projekt folgt den MightyDestroyer Governance-Prinzipien.
-Governance-Repo: https://github.com/MightyDestroyer/Governance
+Governance-Repo: https://github.com/MightyDestroyer/governance
 
 ## Grundregeln
 
@@ -58,8 +58,8 @@ Governance-Repo: https://github.com/MightyDestroyer/Governance
 
 ## Vollstaendige Standards
 
-- Prinzipien: https://github.com/MightyDestroyer/Governance/blob/main/standards/principles.md
-- AI Guardrails: https://github.com/MightyDestroyer/Governance/blob/main/standards/ai-guardrails.md
-- Security: https://github.com/MightyDestroyer/Governance/blob/main/standards/security-guidelines.md
-- Coding: https://github.com/MightyDestroyer/Governance/blob/main/standards/coding-principles.md
-- Compliance: https://github.com/MightyDestroyer/Governance/blob/main/standards/compliance-by-design.md
+- Prinzipien: https://github.com/MightyDestroyer/governance/blob/main/standards/principles.md
+- AI Guardrails: https://github.com/MightyDestroyer/governance/blob/main/standards/ai-guardrails.md
+- Security: https://github.com/MightyDestroyer/governance/blob/main/standards/security-guidelines.md
+- Coding: https://github.com/MightyDestroyer/governance/blob/main/standards/coding-principles.md
+- Compliance: https://github.com/MightyDestroyer/governance/blob/main/standards/compliance-by-design.md

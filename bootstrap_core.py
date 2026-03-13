@@ -424,7 +424,7 @@ _Noch keine offenen Punkte._
 
     commit_msg = (
         f"Initial setup: {name} (via Governance Bootstrap)\n\n"
-        f"- Ordnerstruktur gemaess MightyDestroyer/Governance\n"
+        f"- Ordnerstruktur gemaess MightyDestroyer/governance\n"
         f"- CLAUDE.md, README, MEMORY.md, Project Bible\n"
         f"- .gitignore ({stack}), .env.example\n"
         f"- PR Template, Cursor Rules"

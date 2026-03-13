@@ -1,8 +1,16 @@
 # MightyDestroyer — Governance Bootstrap GUI
 
-> Teil des [MightyDestroyer Governance](https://github.com/MightyDestroyer/Governance) Oekosystems.
+> Teil des [MightyDestroyer governance](https://github.com/MightyDestroyer/governance) Oekosystems.
 
 Desktop-Anwendung zum Erstellen neuer Governance-konformer Projekte. Standalone `.exe`, die ohne Python auf dem Zielrechner funktioniert.
+
+## Quick Links
+
+| Service | URL |
+|---------|-----|
+| GitHub | [MightyDestroyer/bootstrap-gui](https://github.com/MightyDestroyer/bootstrap-gui) |
+| Governance Wiki | [mightydestroyer.github.io/governance](https://mightydestroyer.github.io/governance/) |
+| Governance Repo | [MightyDestroyer/governance](https://github.com/MightyDestroyer/governance) |
 
 ## v2.0 Changes
 

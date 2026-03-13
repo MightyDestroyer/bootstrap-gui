@@ -3,8 +3,8 @@
 import os
 import sys
 
-GOVERNANCE_REPO_URL = "https://github.com/MightyDestroyer/Governance"
-GOVERNANCE_RAW_URL = "https://raw.githubusercontent.com/MightyDestroyer/Governance/main"
+GOVERNANCE_REPO_URL = "https://github.com/MightyDestroyer/governance"
+GOVERNANCE_RAW_URL = "https://raw.githubusercontent.com/MightyDestroyer/governance/main"
 GOVERNANCE_PRINCIPLES_URL = f"{GOVERNANCE_REPO_URL}/blob/main/standards/principles.md"
 
 STACK_OPTIONS = ["generic", "node", "python", "go", "rust"]

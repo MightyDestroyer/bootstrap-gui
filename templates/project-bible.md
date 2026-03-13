@@ -12,7 +12,7 @@
 - **Ziel:** [Was soll das Projekt erreichen?]
 - **Stack:** [z. B. TypeScript, Next.js, PostgreSQL, Docker]
 - **Start:** [Datum]
-- **Governance:** [MightyDestroyer/Governance](https://github.com/MightyDestroyer/Governance)
+- **Governance:** [MightyDestroyer/governance](https://github.com/MightyDestroyer/governance)
 
 ---
 
@@ -87,4 +87,4 @@ Hinweise für den Beginn einer neuen Session:
 
 ---
 
-*Generiert aus MightyDestroyer/Governance — templates/project-bible.md*
+*Generiert aus MightyDestroyer/governance — templates/project-bible.md*
