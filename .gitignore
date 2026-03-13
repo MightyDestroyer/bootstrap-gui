@@ -4,3 +4,9 @@ dist/
 build/
 *.spec
 *.exe
+
+# Environment & Secrets
+.env
+.env.*
+*.key
+*.pem
