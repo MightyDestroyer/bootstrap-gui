@@ -1,0 +1,11 @@
+name: Governance
+
+on:
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  gate:
+    uses: MightyDestroyer/governance/.github/workflows/governance-gate.yml@main
+    with:
+      score-threshold: 100

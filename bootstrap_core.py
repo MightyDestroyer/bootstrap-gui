@@ -19,6 +19,10 @@ from config import (
     GOVERNANCE_RAW_URL,
     GOVERNANCE_PRINCIPLES_URL,
     TEMPLATE_FILES,
+    CORE_SKILLS,
+    UNIVERSAL_RULES,
+    STACK_RULES,
+    STACK_CONFIG_FILES,
     get_templates_dir,
     get_cache_dir,
 )
@@ -149,9 +153,10 @@ desktop.ini
 .env.*
 !.env.example
 
-# Cursor (rules werden getrackt)
+# Cursor (rules und skills werden getrackt)
 .cursor/*
 !.cursor/rules/
+!.cursor/skills/
 """
 
 GITIGNORE_STACK = {
@@ -242,6 +247,12 @@ def bootstrap_project(
     if create_github and github_org:
         github_url = f"https://github.com/{github_org}/{name}"
 
+    rules_list = ", ".join(UNIVERSAL_RULES)
+    extra = STACK_RULES.get(stack, [])
+    if extra:
+        rules_list += ", " + ", ".join(extra)
+    skills_list = ", ".join(CORE_SKILLS)
+
     # --- Validierung ---
     error = validate_project_name(name)
     if error:
@@ -271,9 +282,10 @@ def bootstrap_project(
         "tests/integration",
         "tests/e2e",
         "docs/adrs",
-        "scripts",
+        "scripts/hooks",
         ".github/workflows",
         ".cursor/rules",
+        ".cursor/skills",
     ]
     for d in dirs:
         os.makedirs(os.path.join(project_dir, d), exist_ok=True)
@@ -335,6 +347,7 @@ APP_PORT=3000
 git clone {github_url or '<repo-url>'}
 cd {name}
 cp .env.example .env
+bash scripts/setup-hooks.sh
 ```
 
 ## Stack
@@ -347,6 +360,15 @@ Dieses Projekt folgt den MightyDestroyer Governance-Prinzipien.
 Siehe: [{GOVERNANCE_REPO_URL}]({GOVERNANCE_REPO_URL})
 Kernprinzipien: [standards/principles.md]({GOVERNANCE_PRINCIPLES_URL})
 
+### Vorinstalliert
+
+| Komponente | Inhalt |
+|------------|--------|
+| Cursor Rules | {rules_list} |
+| Cursor Skills | {skills_list} |
+| Git Hooks | pre-commit, commit-msg, pre-push |
+| CI Workflows | ci.yml, governance-gate.yml |
+
 ## Dokumentation
 
 - [CLAUDE.md](CLAUDE.md) — Agenten-Anweisungen
@@ -355,7 +377,7 @@ Kernprinzipien: [standards/principles.md]({GOVERNANCE_PRINCIPLES_URL})
 
 ---
 
-*Generiert mit MightyDestroyer Governance Bootstrap*
+*Generiert mit MightyDestroyer Governance Bootstrap v3.0*
 """
     with open(os.path.join(project_dir, "README.md"), "w", encoding="utf-8") as f:
         f.write(readme)
@@ -411,11 +433,84 @@ _Noch keine offenen Punkte._
     with open(os.path.join(project_dir, ".github", "pull-request-template.md"), "w", encoding="utf-8") as f:
         f.write(pr_tpl)
 
-    # --- Cursor Rules ---
+    # --- Cursor Rules (universal + stack-spezifisch) ---
     _emit_log(">> Cursor Rules kopieren...", "info", log)
-    gov_rule = _read_template("governance.mdc")
-    with open(os.path.join(project_dir, ".cursor", "rules", "governance.mdc"), "w", encoding="utf-8") as f:
-        f.write(gov_rule)
+    for rule in UNIVERSAL_RULES:
+        try:
+            rule_content = _read_template(rule)
+            with open(os.path.join(project_dir, ".cursor", "rules", rule), "w", encoding="utf-8") as f:
+                f.write(rule_content)
+        except FileNotFoundError:
+            _emit_log(f"   WARNUNG: Rule {rule} nicht gefunden — uebersprungen.", "warning", log)
+
+    for extra_rule in STACK_RULES.get(stack, []):
+        try:
+            rule_content = _read_template(extra_rule)
+            with open(os.path.join(project_dir, ".cursor", "rules", extra_rule), "w", encoding="utf-8") as f:
+                f.write(rule_content)
+        except FileNotFoundError:
+            pass
+
+    # --- Cursor Skills ---
+    _emit_log(">> Cursor Skills kopieren...", "info", log)
+    for skill_name in CORE_SKILLS:
+        skill_dir = os.path.join(project_dir, ".cursor", "skills", skill_name)
+        os.makedirs(skill_dir, exist_ok=True)
+        try:
+            skill_content = _read_template(f"skill-{skill_name}")
+            with open(os.path.join(skill_dir, "SKILL.md"), "w", encoding="utf-8") as f:
+                f.write(skill_content)
+        except FileNotFoundError:
+            _emit_log(f"   WARNUNG: Skill {skill_name} nicht gefunden — uebersprungen.", "warning", log)
+
+    # --- Stack Configs ---
+    _emit_log(f">> Stack-Configs kopieren ({stack})...", "info", log)
+    stack_cfg_dir = os.path.join(get_templates_dir(), "..", "stack-configs", stack)
+    alt_raw_prefix = f"{GOVERNANCE_RAW_URL}/templates/stack-configs/{stack}"
+    for cfg_name in STACK_CONFIG_FILES.get(stack, []):
+        local_cfg = os.path.join(stack_cfg_dir, cfg_name)
+        if os.path.isfile(local_cfg):
+            shutil.copy2(local_cfg, os.path.join(project_dir, cfg_name))
+        else:
+            _emit_log(f"   Stack-Config {cfg_name} nicht lokal — uebersprungen.", "info", log)
+
+    # --- Git Hooks ---
+    _emit_log(">> Git Hooks vorbereiten...", "info", log)
+    for hook_name in ["pre-commit", "commit-msg", "pre-push"]:
+        try:
+            hook_content = _read_template(f"hook-{hook_name}")
+            with open(os.path.join(project_dir, "scripts", "hooks", hook_name), "w", encoding="utf-8", newline="\n") as f:
+                f.write(hook_content)
+        except FileNotFoundError:
+            _emit_log(f"   WARNUNG: Hook {hook_name} nicht gefunden — uebersprungen.", "warning", log)
+
+    setup_hooks_content = """\
+#!/usr/bin/env bash
+set -euo pipefail
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+HOOKS_SRC="$SCRIPT_DIR/hooks"
+GIT_HOOKS_DIR="$(git rev-parse --show-toplevel)/.git/hooks"
+
+for hook in pre-commit commit-msg pre-push; do
+    if [[ -f "$HOOKS_SRC/$hook" ]]; then
+        cp "$HOOKS_SRC/$hook" "$GIT_HOOKS_DIR/$hook"
+        chmod +x "$GIT_HOOKS_DIR/$hook"
+    fi
+done
+echo "Git hooks installed."
+"""
+    with open(os.path.join(project_dir, "scripts", "setup-hooks.sh"), "w", encoding="utf-8", newline="\n") as f:
+        f.write(setup_hooks_content)
+
+    # --- CI Workflows ---
+    _emit_log(">> CI Workflows kopieren...", "info", log)
+    for wf_name, tpl_key in [("ci.yml", "ci.yml"), ("governance-gate.yml", "governance-gate.yml")]:
+        try:
+            wf_content = _read_template(tpl_key)
+            with open(os.path.join(project_dir, ".github", "workflows", wf_name), "w", encoding="utf-8") as f:
+                f.write(wf_content)
+        except FileNotFoundError:
+            _emit_log(f"   WARNUNG: Workflow {wf_name} nicht gefunden — uebersprungen.", "warning", log)
 
     # --- Git init ---
     _emit_log(">> Git initialisieren...", "info", log)
@@ -423,11 +518,16 @@ _Noch keine offenen Punkte._
     _run_cmd(["git", "add", "."], project_dir)
 
     commit_msg = (
-        f"Initial setup: {name} (via Governance Bootstrap)\n\n"
+        f"Initial setup: {name} (via Governance Bootstrap v3.0)\n\n"
         f"- Ordnerstruktur gemaess MightyDestroyer/governance\n"
-        f"- CLAUDE.md, README, MEMORY.md, Project Bible\n"
+        f"- CLAUDE.md mit Memory-Hooks, README, MEMORY.md, Project Bible\n"
         f"- .gitignore ({stack}), .env.example\n"
-        f"- PR Template, Cursor Rules"
+        f"- Cursor Rules ({rules_list})\n"
+        f"- Cursor Skills ({skills_list})\n"
+        f"- Stack-Configs ({stack})\n"
+        f"- Git Hooks (pre-commit, commit-msg, pre-push)\n"
+        f"- CI Workflows (ci.yml, governance-gate.yml)\n"
+        f"- PR Template"
     )
     _run_cmd(["git", "commit", "-m", commit_msg], project_dir)
     _emit_log(">> Git-Repository initialisiert.", "info", log)
